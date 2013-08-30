@@ -11,5 +11,4 @@
 class User < ActiveRecord::Base
   attr_accessible :phone
   has_many :transactions
-  has_many :merchants
 end

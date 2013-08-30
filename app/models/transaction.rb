@@ -5,7 +5,7 @@
 #  id          :integer          not null, primary key
 #  user_id     :integer
 #  merchant_id :integer
-#  amount      :float
+#  amount      :decimal(8, 2)    default(0.0)
 #  date        :datetime
 #  auth_code   :integer
 #  status      :string(255)

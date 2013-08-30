@@ -3,7 +3,7 @@ class AddTransactionsTable < ActiveRecord::Migration
     create_table :transactions do |t|
       t.integer :user_id
       t.integer :merchant_id
-      t.float :amount
+      t.decimal :amount, :precision => 8, :scale => 2, :default => 0
       t.datetime :date
       t.integer :auth_code
       t.string :status

@@ -24,12 +24,12 @@ ActiveRecord::Schema.define(:version => 20130830045202) do
   create_table "transactions", :force => true do |t|
     t.integer  "user_id"
     t.integer  "merchant_id"
-    t.float    "amount"
+    t.decimal  "amount",      :precision => 8, :scale => 2, :default => 0.0
     t.datetime "date"
     t.integer  "auth_code"
     t.string   "status"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
   end
 
   create_table "users", :force => true do |t|
