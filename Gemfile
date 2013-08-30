@@ -5,7 +5,15 @@ gem 'rails', '3.2.14'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
+gem 'pg', '~> 0.15.1'
+gem 'haml'
+gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'rspec-rails'
+gem 'shoulda-matchers'
+gem 'simplecov'
+gem 'client_side_validations'
+gem 'twilio-ruby'
+
 
 
 # Gems used only for assets and not required
