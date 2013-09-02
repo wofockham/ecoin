@@ -6,28 +6,70 @@ class MerchantsController < ApplicationController
     end
 
     def sendtxt
-    phone = params["phone"]
-    amount = params["amount"]
-    user = User.find_by_phone(phone)
+      phone = params["phone"]
+      amount = params["amount"]
+      user = User.find_by_phone(phone)
     #user = User.where(:phone => phone).first
     if user.nil?
       user = User.create(:phone => phone)
-      message = "Hey, welcome to eCoin! Your balance is #{amount}"
-      Transaction.create(:amount => amount, :merchant_id => @merchant, :user_id => user.id)
-    else
-      Transaction.create(:amount => amount, :merchant_id => @merchant, :user_id => user.id)
-      balance = user.transactions.sum(:amount)
-      message = "Your eCoin balance is #{balance}"
     end
+
+    message = ''
+    if user.transactions.empty?
+      message = "Hey, welcome to eCoin! "
+    end
+
+    trans = Transaction.create(:amount => amount, :merchant_id => @merchant, :user_id => user.id)
+
+    if trans.nil?
+      # Problem -- insuffiient funds
+      # render :no_funds
+       # binding.pry
+       redirect_to(root_path)
+    elsif trans.auth_code != nil
+
+      auth_code = trans.auth_code
+      code = "Your authorization code is #{auth_code}"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
       client.account.sms.messages.create(:from => '+17274935134',
-                                                            :to => user.phone,
-                                                            :body => message )
+                                                              :to => user.phone,
+                                                              :body => code )
+      redirect_to(redeem_path(trans.id))
 
+    else
 
-      redirect_to(root_path)
+      balance = user.transactions.sum(:amount)
+      message = message + "Your eCoin balance is #{balance}"
+
+      client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
+      client.account.sms.messages.create(:from => '+17274935134',
+                                                              :to => user.phone,
+                                                              :body => message )
+
+        redirect_to(root_path)
+      end
     end
 
+    def redeem
+    end
 
+    def redeemtxt
+      trans = Transaction.find(params[:transaction_id])
+      if trans.auth_code == params[:auth_code].to_i
+        trans.status = 'Verified'
+        trans.save
+        # flash[:notice] = "Post successfully created"
+
+        # message = "Your new eCoin balance is #{balance}"
+
+      # client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
+      # client.account.sms.messages.create(:from => '+17274935134',
+      #                                                         :to => user.phone,
+      #                                                         :body => message )
+      redirect_to(root_path)
+      else
+      redirect_to(root_path)
+    end
+  end
 end

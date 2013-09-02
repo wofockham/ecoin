@@ -13,6 +13,8 @@ gem 'shoulda-matchers'
 gem 'simplecov'
 gem 'client_side_validations'
 gem 'twilio-ruby'
+gem 'pry-debugger'
+gem 'pry-rails'
 
 
 

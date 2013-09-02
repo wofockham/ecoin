@@ -1,0 +1,7 @@
+<ul>
+  <form method='post' action='/redeemtxt'>
+  <input type='text' name='auth_code' placeholder='3 Digit Code'>
+  <input type='hidden' name='transaction_id' value="<%= params[:id] %>">
+  <button>Authorize</button>
+</form>
+</ul>
