@@ -1,7 +1,7 @@
 class MerchantsController < ApplicationController
 
     def new
-      @merchant = Merchant.new
+      # @merchant = Merchant.new
     end
 
     def create
@@ -43,7 +43,7 @@ class MerchantsController < ApplicationController
       code = "Your authorization code is #{auth_code}"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935125',
+      client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => code )
       redirect_to(redeem_path(trans.id))
@@ -54,7 +54,7 @@ class MerchantsController < ApplicationController
       message = message + "Your eCoin balance is #{ '$%.2f' % balance }"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935125',
+      client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => message )
 
