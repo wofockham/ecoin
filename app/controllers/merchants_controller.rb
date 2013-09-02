@@ -1,5 +1,16 @@
 class MerchantsController < ApplicationController
 
+    def new
+      @merchant = Merchant.new
+    end
+
+    def create
+      merchant = Merchant.create(params[:merchant])
+      session[:merchant_id] = merchant.id
+      redirect_to(sendtxt_path)
+    end
+
+
     def index
       @users = User.all
       @transactions = Transaction.all
@@ -47,7 +58,7 @@ class MerchantsController < ApplicationController
                                                               :to => user.phone,
                                                               :body => message )
 
-        redirect_to(root_path)
+        redirect_to(sendtxt_path)
       end
     end
 
@@ -64,13 +75,13 @@ class MerchantsController < ApplicationController
         trans.save
         # flash[:notice] = "Post successfully created"
 
-      message = "Your new eCoin balance is #{ '$%.2f' % balance }"
+        message = "Your new eCoin balance is #{ '$%.2f' % balance }"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935125',
+      client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => message )
-      redirect_to(root_path)
+      redirect_to(sendtxt_path)
       else
       redirect_to(root_path)
     end

@@ -7,7 +7,7 @@ class SessionController < ApplicationController
   @merchant = Merchant.where(:email => params[:email]).first
   if merchant.present? && merchant.authenticate(params[:password])
   session[:merchant_id] = merchant.id
-  redirect_to(root_path)
+  redirect_to(sendtxt_path)
   else
   redirect_to(login_path)
   end

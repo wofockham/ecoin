@@ -1,6 +1,8 @@
 Ecoin::Application.routes.draw do
-  root :to => 'merchants#index'
+  root :to => 'home#index'
+  resources :merchants
 
+get 'sendtxt' => 'merchants#index'
 get '/login' => 'session#new'
 post '/login' => 'session#create'
 get '/logout' => 'session#destroy'
