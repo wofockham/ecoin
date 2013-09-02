@@ -32,7 +32,7 @@ class MerchantsController < ApplicationController
       code = "Your authorization code is #{auth_code}"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935134',
+      client.account.sms.messages.create(:from => '+17274935125',
                                                               :to => user.phone,
                                                               :body => code )
       redirect_to(redeem_path(trans.id))
@@ -40,10 +40,10 @@ class MerchantsController < ApplicationController
     else
 
       balance = user.transactions.sum(:amount)
-      message = message + "Your eCoin balance is #{balance}"
+      message = message + "Your eCoin balance is #{ '$%.2f' % balance }"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935134',
+      client.account.sms.messages.create(:from => '+17274935125',
                                                               :to => user.phone,
                                                               :body => message )
 
@@ -56,17 +56,20 @@ class MerchantsController < ApplicationController
 
     def redeemtxt
       trans = Transaction.find(params[:transaction_id])
+      user = User.find trans.user_id
+      balance = user.transactions.sum(:amount)
+
       if trans.auth_code == params[:auth_code].to_i
         trans.status = 'Verified'
         trans.save
         # flash[:notice] = "Post successfully created"
 
-        # message = "Your new eCoin balance is #{balance}"
+      message = "Your new eCoin balance is #{ '$%.2f' % balance }"
 
-      # client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      # client.account.sms.messages.create(:from => '+17274935134',
-      #                                                         :to => user.phone,
-      #                                                         :body => message )
+      client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
+      client.account.sms.messages.create(:from => '+17274935125',
+                                                              :to => user.phone,
+                                                              :body => message )
       redirect_to(root_path)
       else
       redirect_to(root_path)
