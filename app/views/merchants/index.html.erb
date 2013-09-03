@@ -1,10 +1,27 @@
 <ul>
   <form method='post' action='/sendtxt'>
-      <input type='text' name='phone' placeholder='Input phone number'>
-      <input type='text' name='amount' placeholder='Input amount'>
-      <button>send text message</button>
+      <input id="phone" type='text' name='phone' placeholder='Input phone number'>
+      <input id="amount" type='text' name='amount' placeholder='Input amount'>
+      <button id="create_trans">send text message</button>
+      <span class="check" id="status">&#x2718;</span>
     </form>
 </ul>
+
+<ul id="auth">
+  <form  method='post' action='/redeemtxt'>
+  <input type='text' name='auth_code' id="auth_code" placeholder='3 Digit Code'>
+  <input type='hidden' name='transaction_id' value="<%= params[:trans_id] %>" id='transaction_id'>
+  <span class="check" id="status_auth">&#x2718;</span>
+  <button id="auth_trans">Authorize</button>
+</form>
+</ul>
+
+
+
+<div id="chart" style="height: 250px;"></div>
+
+
+
 
 
 

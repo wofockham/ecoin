@@ -32,21 +32,29 @@ class MerchantsController < ApplicationController
 
     trans = Transaction.create(:amount => amount, :merchant_id => @merchant, :user_id => user.id)
 
+    notification = {}
+
+
     if trans.nil?
       # Problem -- insuffiient funds
       # render :no_funds
        # binding.pry
-       redirect_to(root_path)
+      notification['status'] = 'insufficient'
+
     elsif trans.auth_code != nil
 
       auth_code = trans.auth_code
       code = "Your authorization code is #{auth_code}"
 
+      ###code = code + user.get_url
+
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
       client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => code )
-      redirect_to(redeem_path(trans.id))
+
+      notification['status'] = 'pending'
+      notification['trans_id'] = trans.id
 
     else
 
@@ -58,22 +66,27 @@ class MerchantsController < ApplicationController
                                                               :to => user.phone,
                                                               :body => message )
 
-        redirect_to(sendtxt_path)
+        notification['status'] = 'verified'
+        # notification['amount'] = 'amount'
       end
+      # binding.pry
+      render :json => notification
     end
 
     def redeem
     end
 
     def redeemtxt
-      trans = Transaction.find(params[:transaction_id])
+
+      trans = Transaction.find(params[:trans_id])
       user = User.find trans.user_id
       balance = user.transactions.sum(:amount)
+      notification = {}
 
       if trans.auth_code == params[:auth_code].to_i
         trans.status = 'Verified'
         trans.save
-        # flash[:notice] = "Post successfully created"
+        notification['status'] = 'verified'
 
         message = "Your new eCoin balance is #{ '$%.2f' % balance }"
 
@@ -81,9 +94,10 @@ class MerchantsController < ApplicationController
       client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => message )
-      redirect_to(sendtxt_path)
+
       else
-      redirect_to(root_path)
+        notification['status'] = 'invalid'
     end
+    render :json => notification
   end
 end
