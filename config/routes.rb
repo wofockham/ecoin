@@ -18,6 +18,8 @@ post 'redeemtxt' => 'merchants#redeemtxt'
 
 get '/redeem/:id' => 'merchants#redeem', :as => 'redeem'
 
+get '/u/:sha1' => 'user#profile'
+
 end
 
 

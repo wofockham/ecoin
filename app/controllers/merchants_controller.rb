@@ -20,6 +20,7 @@ class MerchantsController < ApplicationController
       phone = params["phone"]
       amount = params["amount"]
       user = User.find_by_phone(phone)
+
     #user = User.where(:phone => phone).first
     if user.nil?
       user = User.create(:phone => phone)
@@ -30,7 +31,7 @@ class MerchantsController < ApplicationController
       message = "Hey, welcome to eCoin! "
     end
 
-    trans = Transaction.create(:amount => amount, :merchant_id => @merchant, :user_id => user.id)
+    trans = Transaction.create(:amount => amount, :merchant_id => @merchant, :user_id => user.id,)
 
     notification = {}
 
@@ -49,7 +50,7 @@ class MerchantsController < ApplicationController
       ###code = code + user.get_url
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935134',
+      client.account.sms.messages.create(:from => '+17274935125',
                                                               :to => user.phone,
                                                               :body => code )
 
@@ -57,12 +58,12 @@ class MerchantsController < ApplicationController
       notification['trans_id'] = trans.id
 
     else
-
+      url =  user.get_url
       balance = user.transactions.sum(:amount)
-      message = message + "Your eCoin balance is #{ '$%.2f' % balance }"
+      message = message + "Your eCoin balance is #{ '$%.2f' % balance }, see your chart #{url}"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935134',
+      client.account.sms.messages.create(:from => '+17274935125',
                                                               :to => user.phone,
                                                               :body => message )
 
@@ -91,7 +92,7 @@ class MerchantsController < ApplicationController
         message = "Your new eCoin balance is #{ '$%.2f' % balance }"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935134',
+      client.account.sms.messages.create(:from => '+17274935125',
                                                               :to => user.phone,
                                                               :body => message )
 
