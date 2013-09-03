@@ -50,7 +50,7 @@ class MerchantsController < ApplicationController
       ###code = code + user.get_url
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935125',
+      client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => code )
 
@@ -63,7 +63,7 @@ class MerchantsController < ApplicationController
       message = message + "Your eCoin balance is #{ '$%.2f' % balance }, see your chart #{url}"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935125',
+      client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => message )
 
@@ -92,7 +92,7 @@ class MerchantsController < ApplicationController
         message = "Your new eCoin balance is #{ '$%.2f' % balance }"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935125',
+      client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => message )
 

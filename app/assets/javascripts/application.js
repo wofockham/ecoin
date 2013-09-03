@@ -13,5 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require 'bootstrap.js'
-//= require 'jquery_cycle_lite.js'
-//= require_tree .
+//= require 'morris.js'
+//= require 'auth.js'
+
