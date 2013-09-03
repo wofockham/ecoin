@@ -21,7 +21,3 @@ var chart_balance = function (transactions) {
 
 };
 
-$(document).ready(function () {
-
-$('#create_trans').click(show_chart);
-});
