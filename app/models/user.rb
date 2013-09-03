@@ -18,7 +18,8 @@ class User < ActiveRecord::Base
 
   def get_url
     #'http://ecoin.com/u/' + self.sha1
-    'http://localhost:3000/u/' + self.sha1
+    'http://ecoin.herokuapp.com/u/' + self.sha1
+
 
 
   end

@@ -62,10 +62,16 @@ class MerchantsController < ApplicationController
       balance = user.transactions.sum(:amount)
       message = message + "Your eCoin balance is #{ '$%.2f' % balance }, see your chart #{url}"
 
+begin
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935134',
+      msg = client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => message )
+
+rescue Twilio::Rest::RequestError => e
+    logger.info e.message
+end
+
 
         notification['status'] = 'verified'
         # notification['amount'] = 'amount'
