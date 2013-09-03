@@ -1,13 +1,10 @@
 Ecoin::Application.routes.draw do
   root :to => 'home#index'
-  resources :merchants do
-  collection do
-  post '/sendtxt/:bal', :action => 'sendtxt'
-
-  end
-end
+  resources :merchants
 
 
+get '/merchants/chart/:phone' => 'merchants#chart'
+get '/merchants/chart/sum/:phone' => 'merchants#sum'
 get 'sendtxt' => 'merchants#index'
 get '/login' => 'session#new'
 post '/login' => 'session#create'

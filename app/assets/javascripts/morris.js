@@ -1,23 +1,37 @@
 $(document).ready(function () {
 
-var add_amount = function () {
-    var amount = $('#amount').val();
+var show_chart = function () {
+    var phone = $('#phone').val();
 
     $.ajax({
       dataType: 'json',
-      type: 'post',
-      url: '/merchants/sendtxt/' + amount
+      type: 'get',
+      url: '/merchants/chart/' + phone
     }).done(chart_balance);
   };
 
-var chart_balance = function () {
+
+// var sum_balance = function () {
+//   var phone = $('#phone').val()
+
+//    $.ajax({
+//       dataType: 'json',
+//       type: 'get',
+//       url: '/merchants/chart/sum/' + phone
+//     }).done(chart_balance);
+//   };
+
+
+
+
+var chart_balance = function (transactions) {
 
    new Morris.Line({
       element: 'chart',
       data: transactions,
-      xkey: 'amount',
-      ykeys: ['transactions'],
-      labels: ['amount']
+      xkey: 'created_at',
+      ykeys: ['amount'],
+      labels: ['balance']
     });
 
 };
@@ -49,5 +63,5 @@ var chart_balance = function () {
 // });
 // }
 
-$('#create_trans').click(add_amount);
+$('#show_chart').click(show_chart);
 });

@@ -100,4 +100,35 @@ class MerchantsController < ApplicationController
     end
     render :json => notification
   end
+
+  def chart
+    phone = params[:phone]
+    user = User.find_by_phone(phone)
+    if user.nil?
+    user = User.create(:phone => phone)
+    end
+
+    transactions = User.select([:amount, 'transactions.created_at']).joins(:transactions).where('users.phone' => params[:phone])
+    balance = 0
+    transactions.each do |t|
+      new_transaction = t.amount.to_i
+      t.amount = new_transaction + balance
+      balance = balance + new_transaction
+    end
+
+    render :json => transactions
+    # render :json => User.select([:amount, 'transactions.created_at']).joins(:transactions).where('users.phone' => params[:phone]).sum(:amount)
+  end
+
+  def sum
+    phone = params[:phone]
+    user = User.find_by_phone(phone)
+    if user.nil?
+    user = User.create(:phone => phone)
+    end
+
+
+    # render :json => User.select([:amount, 'transactions.created_at']).joins(:transactions).where('users.phone' => params[:phone])
+    render :json => User.select([:amount, 'transactions.created_at']).joins(:transactions).where('users.phone' => params[:phone]).sum(:amount)
+  end
 end

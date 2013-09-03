@@ -29,7 +29,8 @@ var process_auth = function (notification) {
 if (notification.status === 'verified') {
   $("#status_auth")
   .html('&#10003;')
-  .css('color','green');
+  .css('color','green').fadeOut(1600,"linear", complete);
+
 } else if (notification.status === 'invalid') {
     alert('Invalid');
   };
