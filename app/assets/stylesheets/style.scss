@@ -1,10 +1,17 @@
 body {
   margin-top: 100px;
+  // height: 100%;
 }
 
+footer {
+  position: relative bottom !important;
+  margin-top: 50px;
+  display: block !important;
+}
 .main {
 
-  min-height: 450px;
+  min-height: 650px;
+  // height: 100%;
 }
 
 .form-control {
@@ -31,3 +38,95 @@ body {
 }
 
 
+html body {
+background: #fefefd; /* Old browsers */
+background: -moz-linear-gradient(top,  #fefefd 0%, #dce3c4 59%, #aebf76 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefd), color-stop(59%,#dce3c4), color-stop(100%,#aebf76)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #fefefd 0%,#dce3c4 59%,#aebf76 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #fefefd 0%,#dce3c4 59%,#aebf76 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #fefefd 0%,#dce3c4 59%,#aebf76 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #fefefd 0%,#dce3c4 59%,#aebf76 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefd', endColorstr='#aebf76',GradientType=0 ); /* IE6-9 */
+
+
+
+}
+
+.jumbotron {
+
+background: url(http://www.abigailbumanlagphotography.com/img/s2/v61/p1286178452-5.jpg);
+background-size: 100%;
+padding-bottom: 200px;
+background-repeat: no-repeat;
+}
+
+
+.jumbotron h1 {
+
+font-family: Garamond, serif;
+line-height: 1em;
+color: #abc7ae;
+font-weight:bold;
+font-size: 120px;
+text-shadow:0px 0px 0 rgb(147,175,150),1px 1px 0 rgb(132,160,135),2px 2px 0 rgb(118,146,121),3px 3px 0 rgb(103,131,106),4px 4px 0 rgb(89,117,92),5px 5px 0 rgb(74,102,77), 6px 6px 0 rgb(60,88,63),7px 7px 6px rgba(0,0,0,0.6),7px 7px 1px rgba(0,0,0,0.5),0px 0px 6px rgba(0,0,0,.2);
+// text-align: right;
+}
+
+
+.jumbotron p  {
+  color: #fafafa;
+}
+
+.login {
+  padding: 20px;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 2em;
+}
+
+.form-control {
+  padding: 20px !important;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 2em;
+  min-height: 50px;
+}
+
+.form_width {
+  max-width: 600px;
+
+}
+
+.login_width {
+  max-width: 600px;
+}
+
+.sendtxt {
+  margin-top: 200px;
+}
+
+
+
+  // #footer {
+  //   background-color: $orange;
+
+  //   color: $white;
+
+  //   a {
+  //     color: $white;
+  //   }
+  // }
+
+  // .user_nav {
+  //   margin: 15px 0;
+  // }
+
+  // #wrap {
+  //   min-height: 600px;
+  //   height: auto !important;
+  //   height: 100%;
+  //   /* Negative indent footer by its height */
+  //   margin: 0 auto;
+  //   /* Pad bottom by footer height */
+  //   padding: 60px;
+  // }
