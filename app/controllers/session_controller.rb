@@ -4,9 +4,11 @@ class SessionController < ApplicationController
   end
 
   def create
-  @merchant = Merchant.where(:email => params[:email]).first
-  if merchant.present? && merchant.authenticate(params[:password])
-  session[:merchant_id] = merchant.id
+  @merchant = Merchant.where(:email => params[:merchant][:email]).first
+  binding.pry
+  if @merchant.present? && @merchant.authenticate(params[:merchant][:password])
+
+  session[:merchant_id] = @merchant.id
   redirect_to(sendtxt_path)
   else
   redirect_to(login_path)

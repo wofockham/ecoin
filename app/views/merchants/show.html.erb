@@ -1,0 +1,36 @@
+<section class="balance">
+  Your Balance:
+<%= '$%.2f' % @balance %>
+
+</section>
+
+<hr>
+</hr>
+
+<button type="button" class="btn btn-success" id="merchant_chart" >Show chart</button>
+<button type="button" class="btn btn-primary" id="merchant_trans" >Show transactions</button><br>
+</br>
+
+<div class="trans_tables">
+<%  @transactions.each do |t| %>
+
+<table class="table" border ="1">
+  <tr>
+    <td class="table_width"><%=t.created_at%></td>
+    <td class="table_width">$<%=t.amount%></td>
+  </tr>
+</table>
+
+
+<% end %>
+</div>
+
+
+<div class="row">
+<!-- <h3 class="col-lg-6 chart_margin">Last Transaction</h3>
+ --><div class="col-lg-6 chart_margin" id="chart"></div>
+
+<!-- <h3 class="col-lg-6 chart_margin">Last Transaction</h3> -->
+<div class="col-lg-6 chart_margin"  id="cumulative_chart"></div>
+</div>
+

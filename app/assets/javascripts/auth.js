@@ -12,7 +12,7 @@ var process_transaction = function (notification) {
 
   $("#status")
   .html('&#10003;')
-  .css('color','green');
+  .css('color','green').fadeOut(1600);
 
   }else if (notification.status === 'insufficient') {
     show_insufficient_message();

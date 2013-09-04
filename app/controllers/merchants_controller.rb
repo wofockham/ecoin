@@ -4,6 +4,28 @@ class MerchantsController < ApplicationController
       # @merchant = Merchant.new
     end
 
+    def show
+
+    @transactions = Transaction.where(:merchant_id => @merchant.id)
+    @balance = Transaction.select([:amount]).where(:merchant_id => @merchant.id).sum(:amount)
+     # render :json => @transactions
+    end
+
+    def merch_chart
+      render :json => @transactions = Transaction.where(:merchant_id => @merchant.id)
+    end
+
+    def merch_bal
+      @transactions = Transaction.where(:merchant_id => @merchant.id)
+      balance = 0
+      @transactions.each do |t|
+      new_transaction = t.amount
+      t.amount = new_transaction + balance
+      balance = balance + new_transaction
+    end
+      render :json => @transactions
+    end
+
     def create
       merchant = Merchant.create(params[:merchant])
       session[:merchant_id] = merchant.id
@@ -31,7 +53,7 @@ class MerchantsController < ApplicationController
       message = "Hey, welcome to eCoin! "
     end
 
-    trans = Transaction.create(:amount => amount, :merchant_id => @merchant, :user_id => user.id,)
+    trans = Transaction.create(:amount => amount, :merchant_id => @merchant.id, :user_id => user.id,)
 
     notification = {}
 
@@ -50,7 +72,7 @@ class MerchantsController < ApplicationController
       ###code = code + user.get_url
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935125',
+      client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => code )
 
@@ -64,7 +86,7 @@ class MerchantsController < ApplicationController
 
 begin
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      msg = client.account.sms.messages.create(:from => '+17274935125',
+      msg = client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => message )
 
@@ -98,7 +120,7 @@ end
         message = "Your new eCoin balance is #{ '$%.2f' % balance }"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      client.account.sms.messages.create(:from => '+17274935125',
+      client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => message )
 

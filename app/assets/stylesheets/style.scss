@@ -1,16 +1,17 @@
 body {
-  margin-top: 100px;
+  // margin-top: 100px;
   // height: 100%;
 }
 
 footer {
   position: relative bottom !important;
-  margin-top: 50px;
+  // margin-top: 50px;
   display: block !important;
 }
-.main {
-
-  min-height: 650px;
+div.main {
+  margin-top: 150px;
+  min-height: 600px;
+  // margin-left: 20px;
   // height: 100%;
 }
 
@@ -19,6 +20,10 @@ footer {
 
 }
 
+.sendtxt {
+  width: 300px;
+
+}
 .custom {
   width: 300px;
 
@@ -26,11 +31,29 @@ footer {
 
 #chart {
   height: 250px;
-  width: 50%;
+  width: 40%;
 }
 
+#cumulative_chart {
+  height: 250px;
+  width: 40%;
+}
+
+.chart_margin{
+  margin:  0 30px;
+
+}
 .check {
-  font-size: 100px;
+
+  font-size: 150px;
+  // margin: 0 auto;
+  text-align: center;
+
+}
+
+div.checked {
+ text-align: center;
+
 }
 
 .invisible {
@@ -58,6 +81,7 @@ background: url(http://www.abigailbumanlagphotography.com/img/s2/v61/p1286178452
 background-size: 100%;
 padding-bottom: 200px;
 background-repeat: no-repeat;
+margin-top: -150px;
 }
 
 
@@ -105,28 +129,31 @@ text-shadow:0px 0px 0 rgb(147,175,150),1px 1px 0 rgb(132,160,135),2px 2px 0 rgb(
   margin-top: 200px;
 }
 
+.balance  {
+  font-size: 100px;
+  max-width: 100%;
+}
 
+.login2 {
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 1em;
+  margin-top: 20px !important;
+}
 
-  // #footer {
-  //   background-color: $orange;
+.tag {
+  margin: 0 0 10px 0;
+}
 
-  //   color: $white;
+.table {
+  margin: auto;
+}
 
-  //   a {
-  //     color: $white;
-  //   }
-  // }
+.table_width {
+  max-width:5px;
 
-  // .user_nav {
-  //   margin: 15px 0;
-  // }
+}
 
-  // #wrap {
-  //   min-height: 600px;
-  //   height: auto !important;
-  //   height: 100%;
-  //   /* Negative indent footer by its height */
-  //   margin: 0 auto;
-  //   /* Pad bottom by footer height */
-  //   padding: 60px;
-  // }
+.trans_tables {
+  width: 300px;
+}

@@ -13,6 +13,10 @@
             <li class="active"><a href="/">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
+            <% if @merchant.present? %>
+            <li><a href="/sendtxt">Cashier</a></li>
+            <li><%= link_to('Balance', @merchant)%> </li>
+          <% end %>
           </ul>
           <form class="navbar-form navbar-right">
             <!-- <div class="form-group">

@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require 'bootstrap.js'
+//= require 'merchant_morris.js'
 //= require 'morris.js'
 //= require 'auth.js'
 

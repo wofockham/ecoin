@@ -1,23 +1,30 @@
-<div class="container sendtxt">
-<ul>
+<div class="container form_width">
+
   <form method='post' action='/sendtxt'>
-      <input id="phone" type='text' name='phone' placeholder='Input phone number'>
-      <input id="amount" type='text' name='amount' placeholder='Input amount'>
-      <button id="create_trans">send text message</button>
-      <span class="check" id="status">&#x2718;</span>
+     <br> <input id="phone" class="form-control" type='text' name='phone' placeholder='Input phone number'></br>
+     <br> <input id="amount" class="form-control" type='text' name='amount' placeholder='Input amount'></br>
+      <br><button id="create_trans" class="btn-primary login">send text message</button></br>
+      <br>
+    </br>
+      <br><div class="checked"><span class="check" id="status">&#x2718;</span></div></br>
     </form>
-</ul>
 
 <ul id="auth">
   <form  method='post' action='/redeemtxt'>
-  <input type='text' name='auth_code' id="auth_code" placeholder='3 Digit Code'>
+  <br><input type='text' name='auth_code' id="auth_code" class="form-control" placeholder='3 Digit Code'></br>
   <input type='hidden' name='transaction_id' value="<%= params[:trans_id] %>" id='transaction_id'>
-  <span class="check" id="status_auth">&#x2718;</span>
-  <button id="auth_trans">Authorize</button>
-
-</form>
+   <br><div class="checked"><button id="auth_trans"  class="btn btn-success large">Authorize</button></br>
+    <br>
+    </br>
+    <br>
+    </br>
+    <span class="check" id="status_auth" class="form-control">&#x2718;</span>
+    <br></div></br>
 </ul>
+</form>
+
 </div>
+
 
 
 
