@@ -31,7 +31,6 @@ GEM
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
-    client_side_validations (3.2.6)
     coderay (1.0.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -67,7 +66,7 @@ GEM
     method_source (0.8.1)
     mime-types (1.24)
     multi_json (1.7.9)
-    pg (0.15.1)
+    pg (0.16.0)
     polyglot (0.3.3)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
@@ -150,11 +149,10 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
-  client_side_validations
   coffee-rails (~> 3.2.1)
   haml
   jquery-rails
-  pg (~> 0.15.1)
+  pg (~> 0.16.0)
   pry-debugger
   pry-rails
   rails (= 3.2.14)
