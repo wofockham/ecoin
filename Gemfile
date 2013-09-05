@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.14'
 
-gem 'pg', '~> 0.16.0'
+gem 'pg', '~> 0.15.1'
 gem 'haml'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'twilio-ruby'
