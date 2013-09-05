@@ -16,6 +16,8 @@ var chart_balance = function (transactions) {
       data: transactions,
       xkey: 'created_at',
       ykeys: ['amount'],
+      preUnits: '$',
+      dateFormat: function (x) { return new Date(x).toString('dddd, MMMM Do YYYY, h:mm'); },
       labels: ['balance']
     });
 

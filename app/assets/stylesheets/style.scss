@@ -31,18 +31,36 @@ div.main {
 
 #chart {
   height: 250px;
-  width: 40%;
-}
-
-#cumulative_chart {
-  height: 250px;
-  width: 40%;
-}
-
-.chart_margin{
+  width: 80%;
   margin:  0 30px;
 
 }
+
+
+#cumulative_chart {
+  height: 250px;
+  width: 80%;
+  margin:  0 30px;
+
+}
+.profile {
+  margin:  0 30px;
+
+}
+
+img.ga {
+  height: 500px;
+  width: 500px;
+}
+
+.contact {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
 .check {
 
   font-size: 150px;
@@ -156,4 +174,34 @@ text-shadow:0px 0px 0 rgb(147,175,150),1px 1px 0 rgb(132,160,135),2px 2px 0 rgb(
 
 .trans_tables {
   width: 300px;
+}
+
+
+.edit {
+  text-align: center;
+}
+
+.edit2 {
+  text-align: center;
+}
+
+
+
+.pic {
+  max-width: 300px;
+  width: 100%;
+}
+
+.Hello {
+  font-size: 50px;
+  color: black;
+  text-align: center;
+  margin-top: -60px;
+  margin-bottom: 60px;
+}
+
+.blurb {
+  text-align: center;
+  font-size: 25px;
+  margin-bottom: 20px;
 }

@@ -22,7 +22,7 @@ class Transaction < ActiveRecord::Base
 before_create do
   user = User.find(self.user_id)
   balance = user.transactions.sum(:amount)
-  # amount = number_to_currency(:amount)
+
 
 
 if self.amount < 0 && self.amount.abs > balance

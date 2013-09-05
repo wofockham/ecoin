@@ -18,6 +18,10 @@
 <body>
 <%= render 'layouts/header' %>
 <div class="main">
+<% if flash[:notice] %>
+  <p class="notice" style="text-align:center; color: red;"><%= flash[:notice] %></p>
+<% end %>
+
 <%= yield %>
 </div>
 <%= render 'layouts/footer' %>

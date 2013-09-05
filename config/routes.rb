@@ -1,6 +1,7 @@
 Ecoin::Application.routes.draw do
   root :to => 'home#index'
   resources :merchants
+  resources :user
 
 
 get '/merchants/chart/:phone' => 'merchants#chart'
@@ -11,7 +12,10 @@ post '/login' => 'session#create'
 get '/logout' => 'session#destroy'
 get '/merchants/mchart/merch' => 'merchants#merch_chart'
 get '/merchants/mchart/bal' => 'merchants#merch_bal'
-
+get '/phone' => 'merchants#lookupphone'
+# post 'merchants/phone' => 'merchants#lookupphone'
+get 'about' => 'home#about'
+get 'contact' => 'home#contact'
 
 post 'sendtxt' => 'merchants#sendtxt'
 post 'redeemtxt' => 'merchants#redeemtxt'

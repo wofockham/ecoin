@@ -11,12 +11,13 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
             <% if @merchant.present? %>
             <li><a href="/sendtxt">Cashier</a></li>
             <li><%= link_to('Balance', @merchant)%> </li>
           <% end %>
+
           </ul>
           <form class="navbar-form navbar-right">
             <!-- <div class="form-group">
@@ -28,6 +29,9 @@
             <% if !@merchant.present?  %>
             <a href="/merchants/new"><p class="btn btn-primary btn-sm">Register</p></a><% end %>
             <span id="loginname"><%= login_nav %></span>
+            <% if @merchant.present? %>
+            <li><a href="/phone">Edit a User</a></li>
+            <%end%>
           </form>
         </div><!--/.navbar-collapse -->
       </div>

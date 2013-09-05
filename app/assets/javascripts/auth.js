@@ -12,7 +12,12 @@ var process_transaction = function (notification) {
 
   $("#status")
   .html('&#10003;')
-  .css('color','green').fadeOut(1600);
+  .css('color','green').fadeOut(1600, function () {
+
+   $(this).html("&#x2718").css('color', 'black').show();
+
+  });
+
 
   }else if (notification.status === 'insufficient') {
     show_insufficient_message();
@@ -37,7 +42,7 @@ if (notification.status === 'verified') {
 };
 
 
-var insufficient_message = function () {
+var show_insufficient_message = function () {
   alert("Insufficient funds");
 }
 
