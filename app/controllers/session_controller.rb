@@ -5,7 +5,7 @@ class SessionController < ApplicationController
 
   def create
   @merchant = Merchant.where(:email => params[:merchant][:email]).first
-  binding.pry
+
   if @merchant.present? && @merchant.authenticate(params[:merchant][:password])
 
   session[:merchant_id] = @merchant.id
