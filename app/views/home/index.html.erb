@@ -2,7 +2,11 @@
       <div class="container">
         <h1>eCoin</h1>
         <p class="tag">Unlock the power of loose change.</p>
-        <a href="/merchants/new" class="btn-primary login2 ">Learn more &raquo;</a>
+        <% if @merchant.present? %>
+        <a href="/merchants/balance" class="btn-primary login2 ">Learn more &raquo;</a>
+        <%else%> <a href="/merchants/new" class="btn-primary login2 ">Learn more &raquo;</a>
+          <% end %>
+        >
       </div>
     </div>
 
