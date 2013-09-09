@@ -1,1 +1,161 @@
-REadme
+Welcome to eCoin
+
+
+CLIENT SIDE:
+
+The Merchant's experience:
+
+1. Sign up / Registration:
+
+Only the merchant is required to sign up, using a simple email and password.
+
+2. Upon sign up/log in the merchant will have access to a cashier and balance in the nav bar.
+
+  The cashier page:
+    It has an input button where the merchant can enter a phone number and an amount of credit. This will create the user, add the credit and send them a text message confirming the transaction as well as a unique link showing a graph and their balance.
+
+    If the request from a customer is to pay using their ecoins, the merchant will enter a negative amount which will generate 2 possible scenarios:
+
+        1. Inusfficient funds - if the amount requested is more than the customer has on balance a prompt will appear on the screen indicating there is insufficient funds.
+
+        2. If there is enough money, an authorization code will be sent to the customer who will have to validate the number. The merchant will then enter the authorization code in the second menu bar - if it matches the transaction will be validated and debit the customer's account.
+
+
+  The balance page:
+    This page has two views - a table of the transactions as well as two graphs indicating the merchants most recent transactions and one for their running balance.
+
+
+3. Edit User link
+    Upon sign up/log in, the merchant will have access to a link on the right side of the nav bar called "Edit User"
+
+      The edit user link allows a merchant to change the phone number of a customer and transfer any remaining balance to the new phone number. We would like to integrate a validation event to the new phone number in the next version of this app and also explore the ability of customers to text message their balance to other customers/people they know.
+
+  --
+
+  The User's experience
+
+  1. Sign up/Registration
+
+      No email/username/password required. If a user would like to use eCoin, they simply need to give their phone number to the merchant and instruct the merchant to keep their coins attached to their account.
+
+  2. Upon giving their number and crediting their account, they will recieve a welcome message and a link to a graph and a balance amount, with a link to their twitter feed available. The link is actually a sha1 code created by a variation of their phone number and is totally unique to the user. The experience is designed to be as unintrusive as possible for the person at the till.
+
+    Paying with eCoins - to pay with eCoins, a user will tell the merchant their number and instruct the merchant to debit their account. They will then recieve an authentication number which they will present to the merchant to confirm it is their phone. A confirmation sms will appear once the transaction goes through and will update their graph and balance.
+
+  --
+
+  Behind the scenes - the code:
+
+
+There are 3 models:
+
+  1. Merchant (has many users, has many transactions)
+  2. User (has many merchants, has many transactions)
+  3. Transactions (belongs to merchants, belongs to users)
+
+
+The gems we used:
+
+gem 'rails', '3.2.14'
+
+gem 'pg', '~> 0.15.1'
+gem 'haml'
+gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'twilio-ruby'
+gem 'pry-debugger'
+gem 'pry-rails'
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'uglifier', '>= 1.0.3'
+end
+
+gem 'jquery-rails'
+
+group :development do
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+  gem 'simplecov'
+end
+
+--
+
+We used Twilio to handle the sms actions through the merchant controller:
+
+Transaction model:
+
+We assigned two states of the model in a before_create do method:
+  1. If the user doesn't have enough money, the transaction is nullified.
+  2. If the user tries to redeem, a random number is generated for the auth code.
+
+User model:
+
+We create a unique Sha1 encryption attached to the User's phone number and assign this to a method that then attaches this unique url to the sms that will get sent to the User when he uses eCoin. This allows us to avoid having to require a user to sign in and quickens the adoption speed.
+
+
+----
+
+Controllers
+
+Merchant controller:
+
+sendtxt method:
+
+Everything happens in the Merchant controller for the most part. The def sendtxt method handles 3 states (insufficient, verified and pending) when sending an SMS via Twilio:
+
+1. If the transaction is void in the model logic, the transaction is null,  no sms is sent and javascript prompts an insufficient alert.
+
+2. If the transaction is a credit to an account, the transaction will be labeled verified and an sms indicating this has processed will be sent with a unique link inside the sms. Javascript renders a checkmark.
+
+3. If the transaction is identified as a request for money, Twilio sends an sms with a unique SMS code with the random auth number that must be presented by the customer for validation. This creates a "Pending" status to a javascript function which calls a new form via ajax for the merchant to input the code once it is presented by the user.
+
+--
+
+redeemtxt method:
+
+The redeemtxt method inside the merchant controller handles the pending status and converts it into a verified status.
+
+It compares the auth code given by the merchant (and input into the form) versus what was generated in the pending status - if it matches the transaction is deemed verified.
+
+
+--
+
+User Controller/View:
+
+def profile method:
+
+The User model has a before_create do creating a Sha1 code out of their phone number and then a method that attaches this to a url link.
+
+The def profile method runs calling this url, along with the balance of a user and outputs to a profile view of a user. This is view is what gets uniquely sent to a user in an sms.
+
+Inside of this profile view - a script is called that runs the show chart method in Javascript. This takes the information of this user and renders it in a graph in the view, to be seen by the user in the sms.
+
+unique routes:
+
+1. merchants#chart: renders all the transactions for a particular user and displays their running balance over time (this is what is sent uniquely to them via text message)
+
+2.merchants#merch_chart: renders the data for all the recent transactions of a merchant
+
+3.merchants#merch_bal: renders a running balance of all the transactions for a merchant over time
+
+4. merch#lookupphone: seeks out a phone number of a user if the user wants to edit/change their number, which will transfer their balance over to their new phone number (we want to add authorization step to this in the future)
+
+
+---
+Javascripts:
+
+All of the transactions are handled via ajax requests.
+All of the chart displays are handled via ajax requests.
+
+All of the graphs are generated by using Morris.js
+
+
+----
+
+
+Final points -
+
+The app was built so many users could use eCoin at many merchants. If this were to happen we would have to add an admin to the system that would manage the debits and credits across multiple stores and ensure everyone was made whole.
