@@ -1,47 +1,45 @@
 class MerchantsController < ApplicationController
+  def new
+    # @merchant = Merchant.new
+  end
 
-    def new
-      # @merchant = Merchant.new
-    end
-
-    def show
-
+  def show
     @transactions = Transaction.where(:merchant_id => @merchant.id)
     @balance = Transaction.select([:amount]).where(:merchant_id => @merchant.id).sum(:amount)
      # render :json => @transactions
-    end
+  end
 
-    def merch_chart
-      render :json => @transactions = Transaction.where(:merchant_id => @merchant.id)
-    end
+  def merch_chart
+    render :json => @transactions = Transaction.where(:merchant_id => @merchant.id)
+  end
 
-    def merch_bal
-      @transactions = Transaction.where(:merchant_id => @merchant.id)
-      balance = 0
-      @transactions.each do |t|
+  def merch_bal
+    @transactions = Transaction.where(:merchant_id => @merchant.id)
+    balance = 0
+    @transactions.each do |t|
       new_transaction = t.amount
       t.amount = new_transaction + balance
       balance = balance + new_transaction
     end
-      render :json => @transactions
-    end
+    render :json => @transactions
+  end
 
-    def create
-      merchant = Merchant.create(params[:merchant])
-      session[:merchant_id] = merchant.id
-      redirect_to(sendtxt_path)
-    end
+  def create
+    merchant = Merchant.create(params[:merchant])
+    session[:merchant_id] = merchant.id
+    redirect_to(sendtxt_path)
+  end
 
 
-    def index
-      @users = User.all
-      @transactions = Transaction.all
-    end
+  def index
+    @users = User.all
+    @transactions = Transaction.all
+  end
 
-    def sendtxt
-      phone = params["phone"]
-      amount = params["amount"]
-      user = User.find_by_phone(phone)
+  def sendtxt
+    phone = params["phone"]
+    amount = params["amount"]
+    user = User.find_by_phone(phone)
 
     #user = User.where(:phone => phone).first
     if user.nil?
@@ -58,10 +56,8 @@ class MerchantsController < ApplicationController
     notification = {}
 
     if !trans.persisted?
-    notification['status'] = 'insufficient'
-
+      notification['status'] = 'insufficient'
     elsif trans.auth_code != nil
-
       auth_code = trans.auth_code
       code = "Your authorization code is #{auth_code}"
 
@@ -71,58 +67,52 @@ class MerchantsController < ApplicationController
       client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => code )
-
       notification['status'] = 'pending'
       notification['trans_id'] = trans.id
-
     else
-      url =  user.get_url
+      url = user.get_url
       balance = user.transactions.sum(:amount)
       message = message + "Your eCoin balance is #{ '$%.2f' % balance }, see your chart #{url}"
 
-begin
-      client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
-      msg = client.account.sms.messages.create(:from => '+17274935134',
-                                                              :to => user.phone,
-                                                              :body => message )
-
-rescue Twilio::Rest::RequestError => e
-    logger.info e.message
-end
-
-
-        notification['status'] = 'verified'
-        # notification['amount'] = 'amount'
+      begin
+        client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
+        msg = client.account.sms.messages.create(:from => '+17274935134',
+                                                 :to => user.phone,
+                                                 :body => message )
+      rescue Twilio::Rest::RequestError => e
+          logger.info e.message
       end
-      # binding.pry
-      render :json => notification
+
+      notification['status'] = 'verified'
+      # notification['amount'] = 'amount'
     end
+    # binding.pry
+    render :json => notification
+  end
 
-    def redeem
-    end
+  def redeem
+  end
 
-    def redeemtxt
+  def redeemtxt
+    trans = Transaction.find(params[:trans_id])
+    user = User.find trans.user_id
+    balance = user.transactions.sum(:amount)
+    notification = {}
 
-      trans = Transaction.find(params[:trans_id])
-      user = User.find trans.user_id
-      balance = user.transactions.sum(:amount)
-      notification = {}
+    if trans.auth_code == params[:auth_code].to_i
+      trans.status = 'Verified'
+      trans.save
+      notification['status'] = 'verified'
+      url =  user.get_url
 
-      if trans.auth_code == params[:auth_code].to_i
-        trans.status = 'Verified'
-        trans.save
-        notification['status'] = 'verified'
-        url =  user.get_url
-
-        message = "Your new eCoin balance is #{ '$%.2f' % balance }, see your chart #{url}"
+      message = "Your new eCoin balance is #{ '$%.2f' % balance }, see your chart #{url}"
 
       client = Twilio::REST::Client.new(ENV['TW_SID'], ENV['TW_TOK'])
       client.account.sms.messages.create(:from => '+17274935134',
                                                               :to => user.phone,
                                                               :body => message )
-
-      else
-        notification['status'] = 'invalid'
+    else
+      notification['status'] = 'invalid'
     end
     render :json => notification
   end
@@ -131,7 +121,7 @@ end
     phone = params[:phone]
     user = User.find_by_phone(phone)
     if user.nil?
-    user = User.create(:phone => phone)
+      user = User.create(:phone => phone)
     end
 
     # transactions = User.select([:amount, 'transactions.created_at']).joins(:transactions).where('users.phone' => params[:phone])
@@ -157,16 +147,14 @@ end
     phone = params[:phone]
     user = User.find_by_phone(phone)
     if user.nil?
-    user = User.create(:phone => phone)
+      user = User.create(:phone => phone)
     end
-
 
     # render :json => User.select([:amount, 'transactions.created_at']).joins(:transactions).where('users.phone' => params[:phone])
     render :json => User.select([:amount, 'transactions.created_at']).joins(:transactions).where('users.phone' => params[:phone]).sum(:amount)
   end
 
   def lookupphone
-
     if params[:phone] && params[:phone].present?
       @user = User.find_by_phone(params[:phone])
       if @user
@@ -174,20 +162,10 @@ end
       else
         redirect_to '/phone', :notice => 'Phone number does not exist'
       end
-
     end
   end
 
-
-
   def edit
-  @user = User.find(params[:id])
+    @user = User.find(params[:id])
   end
-
-
-
-
-
-
-
 end
