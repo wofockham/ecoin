@@ -18,23 +18,18 @@ class Transaction < ActiveRecord::Base
   belongs_to :user
   belongs_to :merchant
 
+  before_create do
+    user = User.find(self.user_id)
+    balance = user.transactions.sum(:amount)
 
-before_create do
-  user = User.find(self.user_id)
-  balance = user.transactions.sum(:amount)
+    if self.amount < 0 && self.amount.abs > balance
+      return false
+    end
 
-
-
-if self.amount < 0 && self.amount.abs > balance
-  return false
-end
-
-if self.amount < 0
-  self.auth_code = rand(1000)
-end
-
-end
-
+    if self.amount < 0
+      self.auth_code = rand(1000)
+    end
+  end
 end
 
 
