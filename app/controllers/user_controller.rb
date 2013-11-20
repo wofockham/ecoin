@@ -1,15 +1,14 @@
 class UserController < ApplicationController
    def profile
-
     sha1 = params[:sha1]
     @user = User.find_by_sha1(sha1)
     @balance = @user.transactions.sum(:amount)
   end
 
   def update
-  user = User.find(params[:id])
-  user.update_attributes(params[:user])
-  redirect_to(root_path)
+    user = User.find(params[:id])
+    user.update_attributes(params[:user])
+    redirect_to(root_path)
   end
 end
 
