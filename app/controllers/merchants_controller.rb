@@ -24,6 +24,24 @@ class MerchantsController < ApplicationController
     render :json => @transactions
   end
 
+  # Untested but fingers crossed.
+  def all_merch_bal
+    merchants = Merchant.all
+    merchant_summaries = @merchants.map do |merchant|
+      transactions = Transaction.where(:merchant_id => merchant.id)
+      balance = 0
+      transactions.each do |t|
+        # Not sure what exactly this does but it seems to work.
+        new_transaction = t.amount
+        t.amount = new_transaction + balance
+        balance = balance + new_transaction
+      end
+      # Return a hash with the merchant ID and balance.
+      {:merchant_id => merchant.id, :balance => balance, :transactions => transactions}
+    end
+    render :json => merchant_summaries
+  end
+
   def create
     merchant = Merchant.create(params[:merchant])
     session[:merchant_id] = merchant.id
